@@ -6,11 +6,11 @@ from common import Response
 
 class LLM:
     def __init__(
-            self,
-            model: str,
-            base_url: str = "http://localhost:11434/v1",
-            api_key: str = "no_key",
-            think: bool = False,
+        self,
+        model: str,
+        base_url: str = "http://localhost:11434/v1",
+        api_key: str = "no_key",
+        think: bool = False,
     ):
         """Initialize the LLM with the given model."""
         self.model = model
@@ -18,9 +18,7 @@ class LLM:
         self.api_key = api_key
         self.think = think
 
-    def generate(
-            self, messages: list[dict], tools: list | None = None
-    ) -> Response:
+    def generate(self, messages: list[dict], tools: list | None = None) -> Response:
         """Generate a response from the LLM given a list of messages."""
         # Build the request body
         body = {
