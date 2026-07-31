@@ -8,7 +8,7 @@ class Memory:
         self.messages = []
 
     def add(
-            self, role: str, content: str, tool_call: dict | None = None, **kwargs
+        self, role: str, content: str, tool_call: dict | None = None, **kwargs
     ) -> None:
         """Add a message to memory."""
         message = {"role": role, "content": content}
@@ -33,12 +33,8 @@ class TrimmingMemory(Memory):
         super().add(role, content, **kwargs)
 
         # Then, keep system message plus the most recent two turns (4 messages)
-        system = [
-            message for message in self.messages if message["role"] == "system"
-        ]
-        turns = [
-            message for message in self.messages if message["role"] != "system"
-        ]
+        system = [message for message in self.messages if message["role"] == "system"]
+        turns = [message for message in self.messages if message["role"] != "system"]
         self.messages = system + turns[-4:]
 
 
