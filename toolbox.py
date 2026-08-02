@@ -1,0 +1,40 @@
+import inspect
+from collections.abc import Callable
+
+# Convert specific types to string descriptions
+TYPE_MAP = {
+    str: "string",
+    int: "integer",
+    float: "number",
+    bool: "boolean",
+    list: "array",
+    dict: "object",
+}
+
+
+def tool_to_schema(function: Callable) -> dict:
+    """Convert a Python function to an OpenAI-style tool schema."""
+    signature = inspect.signature(function)
+
+    # Extract metadata
+    properties, required = {}, []
+    for name, parameter in signature.parameters.items():
+        properties[name] = {"type": TYPE_MAP.get(parameter.annotation, "string")}
+        if parameter.default is inspect.Parameter.empty:
+            required.append(name)
+
+    # Fill schema
+    schema = {
+        "type": "function",
+        "function": {
+            "name": function.__name__,
+            "description": inspect.getdoc(function),
+            "parameters": {
+                "type": "object",
+                "properties": properties,
+                "required": required,
+            },
+        },
+    }
+
+    return schema
