@@ -1,16 +1,25 @@
 from agent import TinyAgent
 from llm import LLM
 from memory import Memory
+from tools import Tools
 
-llm = LLM(model="gemma4:e4b")
+
+def multiply(a: str, b: str) -> float:
+    return float(a) * float(b)
+
+
+llm = LLM(model="gemma3:12b")
 memory = Memory()
 
-agent = TinyAgent(llm=llm, memory=memory)
+tools = Tools(requires_approval=[])
+tools.add_tool(
+    name="multiply",
+    func=multiply,
+    description="Multiplies two numbers: multiply(a: str, b: str)",
+)
 
-res = agent.run("My name is Hiro Shaw")
+agent = TinyAgent(llm=llm, memory=memory, tools=tools)
+
+res = agent.run("What is 5.1 times 7.3?")
 print(res)
-
-res = agent.run("What is my name?")
-print(res)
-
-print(agent.trajectory.runs)
+print(agent.memory.get_messages())
