@@ -107,9 +107,7 @@ class NativeTools(Tools):
     @property
     def schemas(self) -> list[dict]:
         """Return tool functions for native function calling."""
-        return [
-            tool_to_schema(tool["function"]) for tool in self.registry.values()
-        ]
+        return [tool_to_schema(tool["function"]) for tool in self.registry.values()]
 
     @property
     def prompt(self) -> str:

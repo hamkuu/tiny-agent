@@ -1,6 +1,7 @@
 import inspect
 from collections.abc import Callable
 
+
 def multiply(a: str, b: str) -> float:
     return float(a) * float(b)
 
