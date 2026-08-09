@@ -1,17 +1,29 @@
 from agent import TinyAgent
 from llm import LLM
 from memory import Memory
-from toolbox import multiply
-from tools import NativeTools
+from planning import ReAct
+from toolbox import multiply, add, subtract
+from tools import NativeTools, Tools
 
-llm = LLM(model="gemma4:e4b")
+# Gemma 3 12B (no native thinking or tool calling)
+llm = LLM(model="gemma3:12b")
+
+# Tools
+tools = Tools(requires_approval=[])
+tools.add_tool("add", add, "add(a: str, b: str)")
+tools.add_tool("subtract", subtract, "subtract(a: str, b: str)")
+tools.add_tool("multiply", multiply, "multiply(a: str, b: str)")
+
+# Memory
 memory = Memory()
 
-tools = NativeTools(requires_approval=[])
-tools.add_tool("multiply", multiply)
+# ReAct
+react = ReAct(max_steps=10)
 
-agent = TinyAgent(llm=llm, memory=memory, tools=tools)
+# Create agent
+agent = TinyAgent(llm=llm, tools=tools, memory=memory, planner=react)
 
-res = agent.run("What is 5.1 times 7.3?")
+# Multistep task with reasoning
+res = agent.run("What is (4.6 + 6.685) x 4, and then subtract 3.14 from the result?")
 print(res)
-print(agent.memory.get_messages())
+print(agent.trajectory.runs)
