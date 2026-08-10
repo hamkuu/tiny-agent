@@ -71,3 +71,14 @@ You can also use `final_answer` to directly reply to a user's question without u
         response.content = result["ACTION"]
         response.reasoning = result["THOUGHT"]
         return response
+
+
+class NativeReAct(ReAct):
+    """ReAct using native LLM reasoning instead of text-based parsing."""
+
+    @property
+    def prompt(self) -> str:
+        return ""
+
+    def parse(self, response):
+        return response
