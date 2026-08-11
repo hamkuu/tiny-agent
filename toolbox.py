@@ -2,6 +2,14 @@ import inspect
 from collections.abc import Callable
 
 
+def add(a: str, b: str) -> float:
+    return float(a) + float(b)
+
+
+def subtract(a: str, b: str) -> float:
+    return float(a) - float(b)
+
+
 def multiply(a: str, b: str) -> float:
     return float(a) * float(b)
 
