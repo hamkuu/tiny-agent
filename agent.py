@@ -41,9 +41,7 @@ class TinyAgent:
         response = self.llm.generate(
             self.memory.get_messages(), tools=self.tools.schemas
         )
-        self.memory.add(
-            "assistant", response.content, tool_call=response.tool_call
-        )
+        self.memory.add("assistant", response.content, tool_call=response.tool_call)
 
         # Tool parsing
         response = self.planner.parse(response)
@@ -66,5 +64,3 @@ class TinyAgent:
         role, observation = self.tools.observation(result)
         self.memory.add(role, observation)
         self.trajectory.add(response, observation)
-
-        return None
