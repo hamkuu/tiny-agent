@@ -1,7 +1,7 @@
 import os
 import re
+from collections.abc import Callable
 from dataclasses import dataclass
-from typing import Callable
 
 from agent import TinyAgent
 from llm import LLM
@@ -36,7 +36,7 @@ def programmatic_scorer(prediction: str, example: dict) -> bool:
 judge = LLM(
     model="gemini-3.1-flash-lite",
     base_url="https://generativelanguage.googleapis.com/v1beta/openai",
-    api_key=os.environ['GEMINI_API_KEY']
+    api_key=os.environ["GEMINI_API_KEY"],
 )
 
 
