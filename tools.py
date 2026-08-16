@@ -9,8 +9,10 @@ from toolbox import tool_to_schema
 class Tools:
     """Tool registry for the Agent."""
 
-    def __init__(self, requires_approval: list[str]):
+    def __init__(self, requires_approval=None):
         """Initialize and select tools that require approval before execution."""
+        if requires_approval is None:
+            requires_approval = []
         self.registry = {}
         self.requires_approval = requires_approval
 
