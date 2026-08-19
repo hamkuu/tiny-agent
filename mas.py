@@ -5,7 +5,7 @@ from agent import TinyAgent
 from llm import LLM
 from memory import Memory
 from planning import NativeReAct
-from toolbox import add, subtract, multiply
+from toolbox import add, multiply, subtract
 from tools import NativeTools
 
 llm = LLM(model="gemma4:e4b", think=True)
@@ -17,7 +17,9 @@ math_tools.add_tool("subtract", subtract)
 math_tools.add_tool("multiply", multiply)
 
 # Math Agent
-math_agent = TinyAgent(llm=llm, tools=math_tools, memory=Memory(), planner=NativeReAct())
+math_agent = TinyAgent(
+    llm=llm, tools=math_tools, memory=Memory(), planner=NativeReAct()
+)
 
 
 def today() -> str:
@@ -36,7 +38,9 @@ date_tools.add_tool("today", today)
 date_tools.add_tool("days_between", days_between)
 
 # Date Agent
-date_agent = TinyAgent(llm=llm, tools=date_tools, memory=Memory(), planner=NativeReAct())
+date_agent = TinyAgent(
+    llm=llm, tools=date_tools, memory=Memory(), planner=NativeReAct()
+)
 
 
 def ask_math_agent(question: str) -> str:
@@ -55,7 +59,9 @@ tools.add_tool("ask_math_agent", ask_math_agent)
 tools.add_tool("ask_date_agent", ask_date_agent)
 
 # Orchestrator Agent
-orchestrator_agent = TinyAgent(llm=llm, tools=tools, memory=Memory(), planner=NativeReAct())
+orchestrator_agent = TinyAgent(
+    llm=llm, tools=tools, memory=Memory(), planner=NativeReAct()
+)
 
 res = orchestrator_agent.run("If I save €4 per day until 2030, how much will I have?")
 print(res)
