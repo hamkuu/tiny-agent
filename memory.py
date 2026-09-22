@@ -8,9 +8,23 @@ class Memory:
         self.messages = []
 
     def add(
-        self, role: str, content: str, tool_call: dict | None = None, **kwargs
+        self,
+        role: str,
+        content: str,
+        tool_call: dict | None = None,
+        image_data: str = "",
+        **kwargs,
     ) -> None:
         """Add a message to memory."""
+        # Image
+        if image_data:
+            is_url = image_data.startswith(("http://", "https://"))
+            url = image_data if is_url else f"data:image/png;base64,{image_data}"
+            content = [
+                {"type": "image_url", "image_url": {"url": url}},
+                {"type": "text", "text": content},
+            ]
+
         message = {"role": role, "content": content}
 
         # Tool call
