@@ -23,9 +23,9 @@ class TinyAgent:
         system_prompt += self.tools.prompt
         self.memory.add("system", system_prompt)
 
-    def run(self, task: str) -> str:
+    def run(self, task: str, image_data: str = "") -> str:
         """Run the agent on a task."""
-        self.memory.add("user", task)
+        self.memory.add("user", task, image_data=image_data)
         self.trajectory.initialize(task)
 
         # *Autonomy* loop
