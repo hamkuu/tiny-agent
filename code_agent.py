@@ -16,10 +16,7 @@ tools.add_tool("execute_python", execute_python)
 response = Response(
     content="I executed Python.",
     reasoning="Let's execute some python!",
-    tool_call={
-        "tool": "execute_python",
-        "kwargs": {"code": "print('Hello World!')"}
-    }
+    tool_call={"tool": "execute_python", "kwargs": {"code": "print('Hello World!')"}},
 )
 
 # Display the Response
