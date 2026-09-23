@@ -23,5 +23,5 @@ python mas.py
 ## Code Agent
 
 ```bash
-python code_agent.py
+python code_agent_cmd.py
 ```
