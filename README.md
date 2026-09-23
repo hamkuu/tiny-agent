@@ -1,11 +1,10 @@
 # Tiny Agent
 
-## Memory Strategies
+## Start an Interactive Code Agent
 
-- Conversational
-- Trimming
-- Summarization
-- RAG
+```bash
+python code_agent.py
+```
 
 ## Agent Evaluation
 
@@ -18,10 +17,4 @@ python evaluation.py
 
 ```bash
 python mas.py
-```
-
-## Code Agent
-
-```bash
-python code_agent_cmd.py
 ```
