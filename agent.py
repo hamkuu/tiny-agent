@@ -1,4 +1,5 @@
 from common import Response
+from display import Display
 from llm import LLM
 from memory import Memory
 from planning import ReAct
@@ -9,11 +10,14 @@ from trajectory import Trajectory
 class TinyAgent:
     """A minimal, modular, and educational agent framework."""
 
-    def __init__(self, llm: LLM, memory: Memory, tools: Tools, planner: ReAct):
+    def __init__(
+        self, llm: LLM, memory: Memory, tools: Tools, planner: ReAct, display: Display
+    ) -> None:
         self.llm = llm
         self.memory = memory
         self.tools = tools
         self.planner = planner
+        self.display = display
 
         self.trajectory = Trajectory()
 
@@ -33,15 +37,18 @@ class TinyAgent:
             result = self._step()
             if result is not None:
                 return result
+
         return "Max steps reached without completion."
 
     def _step(self) -> str | None:
         """Perform a single step."""
         # THOUGHT: Generate response and add to memory
+        self.display("thinking")
         response = self.llm.generate(
             self.memory.get_messages(), tools=self.tools.schemas
         )
         self.memory.add("assistant", response.content, tool_call=response.tool_call)
+        self.display("response", response)
 
         # Tool parsing
         response = self.planner.parse(response)
@@ -58,9 +65,11 @@ class TinyAgent:
         """Execute a tool action."""
 
         # ACTION: execute tools
+        self.display("tool_call", response)
         result = self.tools.execute(response)
 
         # OBSERVATION: add tool results to memory and display
         role, observation = self.tools.observation(result)
         self.memory.add(role, observation)
         self.trajectory.add(response, observation)
+        self.display("observation", observation)
