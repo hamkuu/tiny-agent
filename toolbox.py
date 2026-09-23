@@ -90,6 +90,7 @@ def execute_python(code: str) -> str:
             capture_output=True,
             text=True,
             timeout=30,
+            check=False,
         )
     except subprocess.TimeoutExpired:
         return "Error: Code execution timed out (30s limit)."
